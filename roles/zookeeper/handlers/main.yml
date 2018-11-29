@@ -1,0 +1,13 @@
+- name: restart zookeeper service
+  systemd:
+    name: zookeeper
+    state: restarted
+    enabled: yes
+
+- name: start-zookeeper
+  systemd:
+    name: zookeeper
+    daemon-reload: yes
+    enabled: yes
+    state: started
+  

@@ -1,0 +1,47 @@
+
+{% if es_config %}
+{{ es_config | to_nice_yaml }}
+{% endif %}
+
+{% if es_config['cluster.name'] is not defined %}
+cluster.name: elasticsearch
+{% endif %}
+
+{% if es_config['node.name'] is not defined %}
+node.name: {{ansible_hostname}}
+{% endif %}
+
+network.host: _site_ , _local_
+discovery.zen.ping.unicast.hosts: ["{{groups["elasticsearch"] | join("\",\"")}}"]
+
+# Enable cors for external tools like elasticHq
+http.enabled: true
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+
+#################################### Paths ####################################
+
+# Path to directory containing configuration (this file and logging.yml):
+path.data: {{ data_dirs }}
+path.logs: {{ log_dir }}
+
+#Split brain:
+{% if groups['elasticsearch']|length > 2 %}
+discovery.zen.minimum_master_nodes: {{ (groups['elasticsearch']|length -1) | int}}
+gateway.recover_after_nodes: {{ (groups['elasticsearch']|length -1) | int}}
+gateway.expected_nodes: {{ groups['elasticsearch']|length }}
+{% else %}
+gateway.recover_after_nodes: 1
+gateway.expected_nodes: 1
+discovery.zen.minimum_master_nodes: 1
+{% endif %}
+
+#recovery
+gateway.recover_after_time: 10m
+
+#Search threadpool queue
+thread_pool.search.queue_size: 2000
+
+#Disable xpack
+#xpack.security.enabled: false
+

@@ -1,0 +1,7 @@
+---
+- name: Add Elasticsearch repo
+  template: src=elasticsearch.repo dest=/etc/yum.repos.d/elasticsearch-{{ es_major_version }}.repo
+
+- name: Install Elasticsearch
+  yum: name=elasticsearch-{{ es_version }} state=present update_cache=yes
+  notify: restart elasticsearch

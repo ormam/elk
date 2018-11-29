@@ -1,0 +1,25 @@
+- name: ensure /data/zookeeper dir exists
+  file: path=/data/zookeeper state=directory
+
+- name: ensure /var/log/zookeeper dir exists
+  file: path=/var/log/zookeeper state=directory
+
+- name: Copy zookeeper systemd config
+  template: src=zookeeper.service.j2 dest=/etc/systemd/system/zookeeper.service
+  
+- name: copy zookeeper configuration
+  template: src=zookeeper.j2 dest=/root/{{kafka_pkg}}/config/zookeeper.properties
+
+- name: create cluster id file
+  copy: content={{ play_hosts.index(inventory_hostname) + 1 }} dest=/data/zookeeper/myid
+   
+- name: restart-zookeeper
+  systemd:
+    name: zookeeper
+    daemon-reload: yes
+    enabled: yes
+    state: restarted
+
+
+  
+

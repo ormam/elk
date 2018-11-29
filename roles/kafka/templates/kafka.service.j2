@@ -1,0 +1,17 @@
+[Unit]
+Description=Confluent Kafka Broker
+After=network.target network-online.target remote-fs.target 
+
+[Service]
+Type=forking
+User=root
+Group=root
+LimitNOFILE=50000:163840
+Environment="KAFKA_JMX_OPTS=-Djava.rmi.server.hostname={{ inventory_hostname }} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9998 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote.ssl=false"
+Environment="LOG_DIR=/var/log/kafka"
+ExecStart=/root/{{ kafka_pkg }}/bin/kafka-server-start.sh -daemon /root/{{ kafka_pkg }}/config/server.properties
+ExecStop=/root/{{ kafka_pkg }}/bin/kafka-server-stop.sh
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

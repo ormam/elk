@@ -1,0 +1,27 @@
+---
+- hosts: elasticsearch
+  remote_user: root
+  roles:
+  - { role: elasticsearch }
+
+- hosts: zookeeper
+  remote_user: root
+  roles:
+  - { role: zookeeper }
+
+- hosts: kafka
+  remote_user: root
+  roles:
+  - { role: kafka, tags: ["kafka"] }
+
+- hosts: kibana
+  remote_user: root
+  roles:
+  - { role: kibana }
+
+#- hosts: logstash
+#  remote_user: root
+#  roles:
+#  - { role: logstash }
+
+

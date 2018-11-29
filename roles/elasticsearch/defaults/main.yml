@@ -1,0 +1,40 @@
+---
+es_major_version: "6.x"
+es_version: "6.5.1"
+es_version_lock: false
+es_use_repository: true
+es_templates_fileglob: "files/templates/*.json"
+es_start_service: true
+es_restart_on_change: true
+es_templates: true
+use_system_d: true
+es_user: elasticsearch
+es_group: elasticsearch
+es_config: { bootstrap.memory_lock: true }
+es_config_log4j2: log4j2.properties.j2
+#Need to provide default directories
+es_pid_dir: "/var/run/elasticsearch"
+es_data_dirs: "/data/elasticsearch"
+es_log_dir: "/var/log/elasticsearch"
+es_max_open_files: 65536
+es_max_threads: 4096
+es_max_map_count: 262144
+es_heap_size: "{{(ansible_memtotal_mb/2) | int }}"
+es_allow_downgrades: false
+#These are used for internal operations performed by ansible.
+#They do not effect the current configuration
+es_api_host: "localhost"
+es_api_port: 9200
+# Since ansible 2.2 the following variables need to be defined
+# to allow the role to be conditionally played with a when condition.
+pid_dir: ''
+log_dir: ''
+conf_dir: ''
+data_dirs: ''
+# JVM custom parameters
+es_jvm_custom_parameters: ''
+es_conf_dir: "/etc/elasticsearch"
+sysd_script: "/usr/lib/systemd/system/elasticsearch.service"
+#add supported features here
+default_file: "/etc/sysconfig/elasticsearch"
+es_home: "/usr/share/elasticsearch"

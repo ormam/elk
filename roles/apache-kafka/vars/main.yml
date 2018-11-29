@@ -1,0 +1,2 @@
+kafka_pkg: kafka_2.11-2.1.0
+kafka_pkg_tgz: '{{kafka_pkg}}.tgz'

@@ -1,0 +1,8 @@
+- include_vars: ../../logstash-common/defaults/main.yml
+
+- name: clear pipeline configuration directory
+  shell: find {{ logstash_pipeline_dir }}/ -type f -delete
+
+- name: copy pipeline configuration
+  template: src=logstash-k2es.conf.j2 dest={{ logstash_pipeline_dir }}/logstash-k2es.conf mode=a+r
+  notify: restart logstash

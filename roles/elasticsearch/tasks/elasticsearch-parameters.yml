@@ -1,0 +1,11 @@
+#If the user attempts to lock memory they must specify a heap size
+- fail: msg="If locking memory with bootstrap.memory_lock a heap size must be specified"
+  when: es_config['bootstrap.memory_lock'] is defined and es_config['bootstrap.memory_lock'] == True and es_heap_size is not defined
+
+- set_fact: conf_dir={{ es_conf_dir }}
+- set_fact: m_lock_enabled={{ es_config['bootstrap.memory_lock'] is defined and es_config['bootstrap.memory_lock'] == True }}
+
+#Relies on elasticsearch distribution installing a serviced script to determine whether one should be copied.
+- set_fact: pid_dir={{ es_pid_dir }}/{{ansible_hostname}}
+- set_fact: log_dir={{ es_log_dir }}
+- set_fact: data_dirs={{ es_data_dirs }}

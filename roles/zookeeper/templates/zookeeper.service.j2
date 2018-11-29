@@ -1,0 +1,18 @@
+[Unit]
+Description=ZooKeeper
+After=network.target network-online.target remote-fs.target
+
+[Service]
+Type=forking
+User=root
+Group=root
+Environment="KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.local.only=true -Dcom.sun.management.jmxremote.authenticate=false"
+Environment="LOG_DIR=/var/log/zookeeper"
+# Uncomment the following line to enable authentication for the zookeeper
+# Environment="KAFKA_OPTS=-Djava.security.auth.login.config=/etc/kafka/zookeeper_server_jaas.conf -Djava.security.krb5.conf=/etc/krb5.conf"
+ExecStart=/root/{{ kafka_pkg }}/bin/zookeeper-server-start.sh -daemon /root/{{ kafka_pkg }}/config/zookeeper.properties
+ExecStop=/root/{{kafka_pkg}}/bin/zookeeper-server-stop.sh
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

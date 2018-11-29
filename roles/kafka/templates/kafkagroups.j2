@@ -1,0 +1,4 @@
+#!/bin/bash
+
+/root/{{ kafka_pkg }}/bin/kafka-consumer-groups.sh --zookeeper {{zookeeper_hosts}} --list
+/root/{{ kafka_pkg }}/bin/kafka-consumer-groups.sh --bootstrap-server {{kafka_hosts}} --list --new-consumer

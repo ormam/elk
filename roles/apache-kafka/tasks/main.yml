@@ -1,0 +1,9 @@
+- name: add host name to /etc/hosts (kafka issue workaround)
+  lineinfile: dest=/etc/hosts line='127.0.0.1 {{ansible_hostname}}'
+
+- name: download kafka
+  get_url: url=http://apache.spd.co.il/kafka/2.1.0/{{ kafka_pkg_tgz }} dest={{setupdir}}/{{kafka_pkg_tgz}}
+  
+- name: unzip kafka
+  unarchive: src={{setupdir}}/{{kafka_pkg_tgz}} dest=/root copy=no creates=/root/{{kafka_pkg}}
+  register: kafka_unarchive

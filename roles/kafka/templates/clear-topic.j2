@@ -1,0 +1,43 @@
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "Illegal number of parameters"
+    echo "Usage: kafka-clear-topic.sh <topic name>"
+    exit 1
+fi
+
+topicName=$1
+
+KAFKA="/root/{{kafka_pkg}}/bin/kafka-topics.sh --zookeeper {{zookeeper_hosts}}"
+KAFKA_CONFIGS="/root/{{kafka_pkg}}/bin/kafka-configs.sh --zookeeper {{zookeeper_hosts}}"
+KAFKA_GET_OFFSET="/root/{{kafka_pkg}}/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list {{kafka_hosts}}"
+
+#get current retention, for later restoration
+currentRetMs=$($KAFKA --describe --topic $topicName | head -n 1 |
+awk -F '[:,=\t ]' '{for(i=1;i<=NF;i++)if($i=="retention.ms")print $(i+1)}')
+
+echo Current retention is $currentRetMs ms
+
+#set retention time to 1 sec
+echo Setting retention to 1 Second
+$KAFKA_CONFIGS --alter --entity-type topics --entity-name $topicName --add-config retention.ms=1000
+
+while : ; do
+#summerize end offsets
+offsetEndSum=$($KAFKA_GET_OFFSET --topic $topicName --time -1 |  awk -F  ":" '{sum += $3} END {print sum}')
+#summerize start offsets
+offsetStartSum=$($KAFKA_GET_OFFSET --topic $topicName --time -2  |  awk -F  ":" '{sum += $3} END {print sum}')
+#number of messages is the diff between the start and the end offsets
+numOfMessages=$(($offsetEndSum - $offsetStartSum))
+echo Current num of messages $numOfMessages
+  #topic is cleared when start offset = end offste
+  if (($numOfMessages <= 0)); then
+      echo All messages are cleared
+      break
+  fi
+  sleep 1
+done
+
+#restore retention time
+echo Restore retention to $currentRetMs ms
+$KAFKA_CONFIGS --alter --entity-type topics --entity-name $topicName --add-config retention.ms=$currentRetMs

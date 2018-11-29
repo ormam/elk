@@ -1,0 +1,7 @@
+zookeeper_hosts: '{% if hostvars[groups["zookeeper"][0]]["internal_ip"] is defined %}{{zookeeper_internal_hosts}}{%
+ else %}{{zookeeper_public_hosts}}{% endif %}'
+kafka_hosts: '{% if hostvars[groups["kafka"][0]]["internal_ip"] is defined %}{{kafka_internal_hosts}}{%
+ else %}{{kafka_public_hosts}}{% endif %}'
+num_partitions: 12
+replication_factor: '{{ 1 if ((play_hosts | length)  == 1) else 2 }}'
+is_failover: false
