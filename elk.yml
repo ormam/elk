@@ -19,9 +19,13 @@
   roles:
   - { role: kibana }
 
-#- hosts: logstash
-#  remote_user: root
-#  roles:
-#  - { role: logstash }
+- hosts: logstash-ingest
+  remote_user: root
+  roles:
+  - { role: logstash, logstash_config: ingest  }
 
+- hosts: logstash-digest
+  remote_user: root
+  roles:
+  - { role: logstash, logstash_config: digest  }
 

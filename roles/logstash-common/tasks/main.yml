@@ -1,5 +1,5 @@
 - name: Add logstash repo
-  template: src=elasticsearch. dest=/etc/yum.repos.d/logstash-{{ logstash_major_version }}.repo
+  template: src=elasticsearch-repo.j2 dest=/etc/yum.repos.d/logstash-{{ logstash_major_version }}.repo
   when: logstash_use_repository
 
 - name: Install Logstash

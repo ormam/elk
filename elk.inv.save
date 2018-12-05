@@ -1,0 +1,42 @@
+[kafka]
+
+￼
+Firewall rule details
+￼  EDIT
+￼  DELETE
+￼
+paul-home
+Description
+￼
+￼￼ Logs
+Turning on firewall logs can generate a large number of logs which can increase costs in Stackdriver. Learn more
+
+￼
+On
+￼
+Off
+Network
+default
+Priority
+1000
+Direction
+Ingress
+Action on match
+Allow
+Targets
+All instances in the network
+Source filter 
+IP ranges
+￼￼ Source IP ranges 
+77.126.55.191￼  
+
+[zookeeper]
+35.246.191.145
+
+[elasticsearch]
+35.246.191.145
+
+[kibana]
+35.246.191.145
+
+[logstash]

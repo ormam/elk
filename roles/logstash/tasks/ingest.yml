@@ -1,0 +1,15 @@
+- name: Create/Validate keys directory
+  file:
+    path: /etc/logstash/keys
+    state: directory
+    mode: 0755
+  
+- name: Copy lumberjack keys
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/logstash/keys/{{ item }}"
+    mode: 0600
+  with_items:
+    - lumberjack.cert
+    - lumberjack.key
+  notify: restart logstash

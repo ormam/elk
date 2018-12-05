@@ -1,15 +1,6 @@
 - name: ensure /var/log/kafka dir exists
   file: path=/var/log/kafka state=directory
 
-- name: register broker_id from shell
-  #compute machine id. taken from https://github.com/jaytaylor/ansible-kafka
-  shell: ( test -r /etc/fstab && find /dev/disk/by-uuid/ -type l -printf "%f\n" | sort | head -1 | grep --ignore-case --only-matching --extended-regexp --max 1 '[0-9a-f]{3,}[0-9a-f-]+' | tr -d '-' || echo '0' ; ifconfig | grep --ignore-case --only-matching --extended-regexp '([0-9a-f]{2}:){5}[0-9a-f]{2}' | tr -d ':' | tr -d '\n') | python -c 'import sys; x, y = sys.stdin.read().split(chr(10))[0:2]; x = int(x, 16); y = int(y, 16); sys.stdout.write((str(x + y)[-9:])); sys.exit(1 if x == 0 and y == 0 else 0)'
-  register: broker_id_result
-  changed_when: False
-
-- name: set broker id
-  set_fact: broker_id={{broker_id_result.stdout_lines[0]}}
-
 - name: copy kafka server configuration
   template: src=server.j2 dest=/root/{{kafka_pkg}}/config/server.properties
  

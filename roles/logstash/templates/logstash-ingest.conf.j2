@@ -1,0 +1,32 @@
+# Kafka configuration is using the default values in most parameters (based on
+# https://www.elastic.co/guide/en/logstash/5.5/plugins-inputs-kafka.html).
+# Elasticseach configuration is using the default values in most parameters (based on
+# https://www.elastic.co/guide/en/logstash/5.5/plugins-outputs-elasticsearch.html).
+
+
+input {
+  lumberjack {
+    ssl_certificate => "/etc/logstash/keys/lumberjack.cert"
+    ssl_key => "/etc/logstash/keys/lumberjack.key"
+    port => "8085"
+    codec => "json"        
+  }
+}
+
+
+output{
+ 
+  stdout { codec => rubydebug }
+  file{
+    path => "/var/log/logstash/test_bla.txt"
+  }
+  kafka{
+    topic_id => "Topic1"   
+    compression_type => "lz4"
+    codec => "json_lines"
+    batch_size => 131
+    linger_ms => 10
+    retries => 25
+    bootstrap_servers => "{{groups["kafka"]:9092 | join("\",\"")}}"
+  }
+}

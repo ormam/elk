@@ -1,2 +1,2 @@
 dependencies:
-  - { role: logstash-common, pipeline_workers: 60 , pipeline_output_workers: 20 }
+  - { role: logstash-common, pipeline_workers: 20 , pipeline_output_workers: 5 }

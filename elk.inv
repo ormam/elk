@@ -13,5 +13,7 @@
 [nginx]
 104.196.55.109
 
-[logstash]
+[logstash-ingest]
 35.231.19.15
+
+[logstash-digest]

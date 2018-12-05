@@ -1,8 +1,23 @@
-- include_vars: ../../logstash-common/defaults/main.yml
+- name: Include tasks for ingest
+  include_tasks: name = ingest.yml
+  when: logstash_config == "ingest"
 
-- name: clear pipeline configuration directory
-  shell: find {{ logstash_pipeline_dir }}/ -type f -delete
+- name: Include tasks for digest
+  include_tasks: name = digest.yml
+  when: logstash_config == "digest"
 
 - name: copy pipeline configuration
-  template: src=logstash-k2es.conf.j2 dest={{ logstash_pipeline_dir }}/logstash-k2es.conf mode=a+r
-  notify: restart logstash
+  template:
+    src: "logstash-{{ logstash_config }}.conf.j2"
+    dest: "{{ logstash_pipeline_dir }}/logstash-{{logstash_config}}.conf"
+    mode: 0644
+  register: result
+
+- name: restart logstash
+  service: 
+    name: logstash
+    state: restarted
+  when: result is changed or keys is changed
+
+
+
