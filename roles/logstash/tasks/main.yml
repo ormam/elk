@@ -1,10 +1,6 @@
 - name: Include tasks for ingest
-  include_tasks: name = ingest.yml
+  include_tasks: "{{ playbook_dir }}/roles/logstash/tasks/ingest.yml"
   when: logstash_config == "ingest"
-
-- name: Include tasks for digest
-  include_tasks: name = digest.yml
-  when: logstash_config == "digest"
 
 - name: copy pipeline configuration
   template:
