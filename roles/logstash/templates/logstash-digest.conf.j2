@@ -2,7 +2,7 @@
 input {
   kafka {
     topics => "Topic1"
-    bootstrap_servers => "{{ groups['kafka']:9092 | join("\",\"")}}"
+    bootstrap_servers => "{% for host in groups['kafka'] %}{{host}}:9092{%if not loop.last %},{% endif %}{% endfor %}"
     codec => "json"
     auto_offset_reset => "latest"
     
@@ -19,7 +19,7 @@ output{
     path => "/var/log/logstash/test_bla.txt"
   }
   elasticsearch {  
-    hosts => "{{ groups['elasticsearch']:9200 | join("\",\"")}}"
+    hosts => ""{% for host in groups['elasticsearch'] %}{{host}}:9200{%if not loop.last %},{% endif %}{% endfor %}"
     manage_template => false
     index => "%{[metadata][beat]}-%{+YYYY.MM.dd}"
   }
