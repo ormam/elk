@@ -18,7 +18,7 @@
 ############################# Server Basics #############################
 
 # The id of the broker. This must be set to a unique integer for each broker.
-{% for url in groups[kafka] %}
+{% for url in groups['kafka'] %}
   broker.id={{loop.index0}}
 {% endfor %}
 
