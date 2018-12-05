@@ -2,6 +2,12 @@
   include_tasks: "{{ playbook_dir }}/roles/logstash/tasks/ingest.yml"
   when: logstash_config == "ingest"
 
+- name: Create/Validate conf.d directory
+  file:
+    path: /etc/logstash/conf.d
+    state: directory
+    mode: 0755
+    
 - name: copy pipeline configuration for {{logstash_config}}
   template:
     src: "logstash-{{ logstash_config }}.conf.j2"
@@ -13,7 +19,6 @@
   service: 
     name: logstash
     state: restarted
-  when: result is changed or keys is changed
-
+  when: result is changed 
 
 

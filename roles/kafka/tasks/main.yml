@@ -14,6 +14,3 @@
     enabled: yes
     state: restarted
   
-#- name: reelect kafka leader
-#  command: '/root/{{kafka_pkg}}/bin/zookeeper-shell.sh {{zookeeper_hosts}} delete /controller'
-

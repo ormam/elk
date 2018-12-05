@@ -19,7 +19,7 @@ output{
     path => "/var/log/logstash/test_bla.txt"
   }
   elasticsearch {  
-    hosts => {% for host in groups['elasticsearch'] %}{{host}}:9200{%if not loop.last %},{% endif %}{% endfor %}"
+    hosts => "{% for host in groups['elasticsearch'] %}{{host}}:9200{%if not loop.last %},{% endif %}{% endfor %}"
     manage_template => false
     index => "%{[metadata][beat]}-%{+YYYY.MM.dd}"
   }
