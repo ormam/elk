@@ -27,6 +27,6 @@ output{
     batch_size => 131
     linger_ms => 10
     retries => 25
-    bootstrap_servers => "{{groups["kafka"]:9092 | join("\",\"")}}"
+    bootstrap_servers => "{{groups['kafka']:9092 | join("\",\"")}}"
   }
 }

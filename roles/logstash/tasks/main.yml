@@ -2,7 +2,7 @@
   include_tasks: "{{ playbook_dir }}/roles/logstash/tasks/ingest.yml"
   when: logstash_config == "ingest"
 
-- name: copy pipeline configuration
+- name: copy pipeline configuration for {{logstash_config}}
   template:
     src: "logstash-{{ logstash_config }}.conf.j2"
     dest: "{{ logstash_pipeline_dir }}/logstash-{{logstash_config}}.conf"
