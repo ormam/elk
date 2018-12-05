@@ -8,7 +8,7 @@
   copy:
     src: "{{ item }}"
     dest: "/etc/logstash/keys/{{ item }}"
-    mode: 0600
+    mode: 0644
   with_items:
     - lumberjack.cert
     - lumberjack.key
