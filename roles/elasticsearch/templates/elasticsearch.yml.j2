@@ -7,9 +7,9 @@
 cluster.name: elasticsearch
 {% endif %}
 
-{% if es_config['node.name'] is not defined %}
-node.name: {{ host }}
-{% endif %}
+{% for host in play_hosts %}
+node.name=elasticsearch.{{loop.index}}
+{% endfor %}
 
 network.host: _site_ , _local_
 discovery.zen.ping.unicast.hosts: ["{{groups["elasticsearch"] | join("\",\"")}}"]
