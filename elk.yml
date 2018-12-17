@@ -39,6 +39,9 @@
   roles:
   - { role: chronograf, tags: ["chronograf"] }
 
-
+- hosts: nginx
+  remote_user: root
+  roles:
+  - { role: nginx, tags: ["nginx"] }
 
 
