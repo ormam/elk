@@ -97,7 +97,18 @@ stream {
     }
    
     server {
-        listen 8085;
+        listen 444;
+        proxy_pass rtmp_servers;
+    }
+}
+stream {
+    upstream influxdata {
+        least_conn;
+    "{{ groups['influxdb'][0]:8086 }}"
+}
+   
+    server {
+        listen 443;
         proxy_pass rtmp_servers;
     }
 }

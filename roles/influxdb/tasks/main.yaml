@@ -1,0 +1,21 @@
+---
+- name: Copy influxdb repo
+  copy:
+    src: influxdb.repo
+    dest: /etc/yum.repos.d/influxdb.repo
+
+- name: Install InfluxDB
+  yum:
+    name: influxdb
+    state: present
+
+- name: Copy configuration from template
+  template:
+    src: influxdb.conf.j2
+    dest: /etc/influxdb/influxdb.conf
+
+- name: Start InfluxDB
+  service:
+    name: influxdb
+    state: started
+    enabled: yes

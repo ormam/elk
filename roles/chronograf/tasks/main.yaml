@@ -1,0 +1,16 @@
+---
+- name: Copy chronograf repo
+  copy:
+    src: influxdb.repo
+    dest: /etc/yum.repos.d/influxdb.repo
+
+- name: Install chronograf
+  yum:
+    name: chronograf
+    state: present
+
+- name: Start chronograf
+  service:
+    name: chronograf
+    state: started
+    enabled: yes

@@ -1,0 +1,21 @@
+---
+- name: Copy kapacitor repo
+  copy:
+    src: influxdb.repo
+    dest: /etc/yum.repos.d/influxdb.repo
+
+- name: Install kapacitor
+  yum:
+    name: kapacitor
+    state: present
+
+- name: Copy configuration from template
+  template:
+    src: kapacitor.conf.j2
+    dest: /etc/kapacitor/kapacitor.conf
+
+- name: Start kapacitor
+  service:
+    name: kapacitor
+    state: started
+    enabled: yes

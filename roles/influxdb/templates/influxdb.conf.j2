@@ -1,0 +1,227 @@
+
+
+[meta]
+  # Where the metadata/raft database is stored
+  dir = "/var/lib/influxdb/meta"
+
+  # Automatically create a default retention policy when creating a database.
+   retention-autocreate = true
+
+  # If log messages are printed for the meta service
+  # logging-enabled = true
+
+
+[data]
+  # The directory where the TSM storage engine stores TSM files.
+  dir = "/var/lib/influxdb/data"
+
+  # The directory where the TSM storage engine stores WAL files.
+  wal-dir = "/var/lib/influxdb/wal"
+
+  # index-version = "inmem"
+  # trace-logging-enabled = false
+  # query-log-enabled = true
+  # validate-keys = false
+  # cache-max-memory-size = "1g"
+  # cache-snapshot-memory-size = "25m"
+  # cache-snapshot-write-cold-duration = "10m"
+
+  # compact-full-write-cold-duration = "4h"
+
+  # max-concurrent-compactions = 0
+
+  # compact-throughput = "48m"
+
+  # compact-throughput-burst = "48m"
+
+  # max-index-log-file-size = "1m"
+
+  # max-series-per-database = 1000000
+
+  # max-values-per-tag = 100000
+
+  # tsm-use-madv-willneed = false
+
+[coordinator]
+  # max-concurrent-queries = 0
+
+  # query-timeout = "0s"
+
+  # log-queries-after = "0s"
+
+  # max-select-point = 0
+
+  # max-select-series = 0
+
+  # max-select-buckets = 0
+
+
+[retention]
+  # Determines whether retention policy enforcement enabled.
+  enabled = true
+
+  # The interval of time when retention policy enforcement checks run.
+  # check-interval = "30m"
+
+[shard-precreation]
+  # Determines whether shard pre-creation service is enabled.
+  # enabled = true
+
+  # The interval of time when the check to pre-create new shards runs.
+  # check-interval = "10m"
+
+  # The default period ahead of the endtime of a shard group that its successor
+  # group is created.
+  # advance-period = "30m"
+
+[monitor]
+  # Whether to record statistics internally.
+  # store-enabled = true
+
+  # The destination database for recorded statistics
+  # store-database = "_internal"
+
+  # The interval at which to record statistics
+  # store-interval = "10s"
+
+[http]
+  # Determines whether HTTP endpoint is enabled.
+  # enabled = true
+
+  # Determines whether the Flux query endpoint is enabled.
+  # flux-enabled = false
+
+  # The bind address used by the HTTP service.
+  bind-address = ":8086"
+
+  # Determines whether user authentication is enabled over HTTP/HTTPS.
+  # auth-enabled = false
+
+  # The default realm sent back when issuing a basic auth challenge.
+  # realm = "InfluxDB"
+
+  # Determines whether HTTP request logging is enabled.
+  # log-enabled = true
+
+  # Determines whether the HTTP write request logs should be suppressed when the log is enabled.
+  # suppress-write-log = false
+
+  # When HTTP request logging is enabled, this option specifies the path where
+  # log entries should be written. If unspecified, the default is to write to stderr, which
+  # intermingles HTTP logs with internal InfluxDB logging.
+  #
+  # If influxd is unable to access the specified path, it will log an error and fall back to writing
+  # the request log to stderr.
+  # access-log-path = ""
+
+  # Filters which requests should be logged. Each filter is of the pattern NNN, NNX, or NXX where N is
+  # a number and X is a wildcard for any number. To filter all 5xx responses, use the string 5xx.
+  # If multiple filters are used, then only one has to match. The default is to have no filters which
+  # will cause every request to be printed.
+  # access-log-status-filters = []
+
+  # Determines whether detailed write logging is enabled.
+  # write-tracing = false
+
+  # Determines whether the pprof endpoint is enabled.  This endpoint is used for
+  # troubleshooting and monitoring.
+  # pprof-enabled = true
+
+  # Enables a pprof endpoint that binds to localhost:6060 immediately on startup.
+  # This is only needed to debug startup issues.
+  # debug-pprof-enabled = false
+
+  # Determines whether HTTPS is enabled.
+  # https-enabled = false
+
+  # The SSL certificate to use when HTTPS is enabled.
+  # https-certificate = "/etc/ssl/influxdb.pem"
+
+  # Use a separate private key location.
+  # https-private-key = ""
+
+  # The JWT auth shared secret to validate requests using JSON web tokens.
+  # shared-secret = ""
+
+  # The default chunk size for result sets that should be chunked.
+  # max-row-limit = 0
+
+  # The maximum number of HTTP connections that may be open at once.  New connections that
+  # would exceed this limit are dropped.  Setting this value to 0 disables the limit.
+  # max-connection-limit = 0
+
+  # Enable http service over unix domain socket
+  # unix-socket-enabled = false
+
+  # The path of the unix domain socket.
+  # bind-socket = "/var/run/influxdb.sock"
+
+  # The maximum size of a client request body, in bytes. Setting this value to 0 disables the limit.
+  # max-body-size = 25000000
+
+  # The maximum number of writes processed concurrently.
+  # Setting this to 0 disables the limit.
+  # max-concurrent-write-limit = 0
+
+  # The maximum number of writes queued for processing.
+  # Setting this to 0 disables the limit.
+  # max-enqueued-write-limit = 0
+
+  # The maximum duration for a write to wait in the queue to be processed.
+  # Setting this to 0 or setting max-concurrent-write-limit to 0 disables the limit.
+  # enqueued-write-timeout = 0
+
+[logging]
+  # Determines which log encoder to use for logs. Available options
+  # are auto, logfmt, and json. auto will use a more a more user-friendly
+  # output format if the output terminal is a TTY, but the format is not as
+  # easily machine-readable. When the output is a non-TTY, auto will use
+  # logfmt.
+  # format = "auto"
+
+  # Determines which level of logs will be emitted. The available levels
+  # are error, warn, info, and debug. Logs that are equal to or above the
+  # specified level will be emitted.
+  # level = "info"
+
+  # Suppresses the logo output that is printed when the program is started.
+  # The logo is always suppressed if STDOUT is not a TTY.
+  # suppress-logo = false
+
+[subscriber]
+  # Determines whether the subscriber service is enabled.
+  # enabled = true
+
+  # The default timeout for HTTP writes to subscribers.
+  # http-timeout = "30s"
+
+  # Allows insecure HTTPS connections to subscribers.  This is useful when testing with self-
+  # signed certificates.
+  # insecure-skip-verify = false
+
+  # The path to the PEM encoded CA certs file. If the empty string, the default system certs will be used
+  # ca-certs = ""
+
+  # The number of writer goroutines processing the write channel.
+  # write-concurrency = 40
+
+  # The number of in-flight writes buffered in the write channel.
+  # write-buffer-size = 1000
+
+[tls]
+  # Determines the available set of cipher suites. See https://golang.org/pkg/crypto/tls/#pkg-constants
+  # for a list of available ciphers, which depends on the version of Go (use the query
+  # SHOW DIAGNOSTICS to see the version of Go used to build InfluxDB). If not specified, uses
+  # the default settings from Go's crypto/tls package.
+  # ciphers = [
+  #   "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305",
+  #   "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+  # ]
+
+  # Minimum version of the tls protocol that will be negotiated. If not specified, uses the
+  # default settings from Go's crypto/tls package.
+  # min-version = "tls1.2"
+
+  # Maximum version of the tls protocol that will be negotiated. If not specified, uses the
+  # default settings from Go's crypto/tls package.
+  # max-version = "tls1.2"
