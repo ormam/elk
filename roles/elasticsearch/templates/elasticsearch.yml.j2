@@ -8,7 +8,7 @@ cluster.name: elasticsearch
 {% endif %}
 
 {% for host in play_hosts %}
-node.name=elasticsearch.{{loop.index}}
+node.name: elasticsearch.{{loop.index}}
 {% endfor %}
 
 network.host: _site_ , _local_
