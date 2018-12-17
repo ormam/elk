@@ -29,3 +29,16 @@
   roles:
   - { role: logstash, logstash_config: digest  }
 
+- hosts: influxdb
+  remote_user: root
+  roles:
+  - { role: influxdb, tags: ["influxdb"] }
+
+- hosts: chronograf
+  remote_user: root
+  roles:
+  - { role: chronograf, tags: ["chronograf"] }
+
+
+
+
