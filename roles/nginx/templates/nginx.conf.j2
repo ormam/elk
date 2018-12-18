@@ -89,26 +89,26 @@ http {
 }
 
 stream {
-    upstream rtmp_servers {
+    upstream logstash-ingest {
         least_conn;
     {% for host in groups['logstash-ingest'] %}
-      "{{ hostvars[host]['ipv4']['address']:8085 }}"
+      server {{ hostvars[host]['ipv4']['address']}}:8085
     {% endfor %}
     }
    
     server {
         listen 444;
-        proxy_pass rtmp_servers;
+        proxy_pass logstash-ingest;
     }
 }
 stream {
     upstream influxdata {
         least_conn;
-    "{{ groups['influxdb'][0]:8086 }}"
+    server {{ groups['influxdb'][0] }}:8086
 }
    
     server {
         listen 443;
-        proxy_pass rtmp_servers;
+        proxy_pass influxdata;
     }
 }
