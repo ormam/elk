@@ -100,8 +100,7 @@ stream {
         listen 444;
         proxy_pass logstash-ingest;
     }
-}
-stream {
+	
     upstream influxdata {
         least_conn;
     server {{ groups['influxdb'][0] }}:8086
